@@ -16,6 +16,7 @@ import org.jnativehook.mouse.NativeMouseInputListener;
 public class EspionSouris implements NativeMouseInputListener{
 
     private Sender sender;
+    
     public EspionSouris(Sender sender)
     {
         super();
@@ -30,17 +31,19 @@ public class EspionSouris implements NativeMouseInputListener{
 
     @Override
     public void nativeMousePressed(NativeMouseEvent nme) {
-        //Not supported yet
+        System.out.println("MousePressedNative | x = "+nme.getX()+" | y = "+ nme.getY());
+        this.sender.sendMousePress(nme.getX(), nme.getY());
     }
 
     @Override
     public void nativeMouseReleased(NativeMouseEvent nme) {
-        //Not supported yet
+        System.out.println("MouseReleasedNative | x = "+nme.getX()+" | y = "+ nme.getY());
+        this.sender.sendMouseReleased(nme.getX(), nme.getY());
     }
 
     @Override
     public void nativeMouseMoved(NativeMouseEvent nme) {
-        //Not supported yet
+        this.sender.sendMouseMove(nme.getX(), nme.getY());
     }
 
     @Override

@@ -40,22 +40,62 @@ public class MethodesDist extends UnicastRemoteObject implements I_MethodesDist,
         this.sender = ordi.getSender();
     }
 
+    @Override
     public String messageDistant() throws RemoteException {
         return "Message distant envoyé";
     }
 
     @Override
     public void moveMouse(double x, double y) throws RemoteException {
-        System.out.println("Mouse moved");
+        
+        int localX = (int) (screenSize.getWidth() * x);
+        int localY = (int) (screenSize.getWidth() * y);
+        this.sender.resetTimestamp();
+        this.robot.mouseMove(localX, localY);
+        System.out.println("Mouse moved to "+localX+" / "+localY);
     }
 
     /*Simule un click de souris, envoi l'info a l'ordi distant*/
     @Override
-    public void clickMouse(double x, double y) throws RemoteException {
+    public synchronized void clickMouse(double x, double y) throws RemoteException {
         System.out.println("Mouse clicked");
-        this.moveMouse(x, y);
+        //this.moveMouse(x, y);
         this.sender.resetTimestamp();
         this.robot.mousePress(InputEvent.BUTTON1_MASK);
         this.robot.mouseRelease(InputEvent.BUTTON1_MASK);
+    }
+
+    @Override
+    public synchronized void pressMouse(double x, double y) throws RemoteException {
+        System.out.println("Mouse pressed");
+        //this.moveMouse(x, y);
+        this.sender.resetTimestamp();
+        this.robot.mousePress(InputEvent.BUTTON1_MASK);
+    }
+
+    @Override
+    public synchronized void releaseMouse(double x, double y) throws RemoteException {
+        System.out.println("Mouse released");
+        //this.moveMouse(x, y);
+        this.sender.resetTimestamp();
+        this.robot.mouseRelease(InputEvent.BUTTON1_MASK);
+    }
+
+    @Override
+    public synchronized void keyTyped(int keycode) throws RemoteException {
+        System.out.println("Key typed");
+        this.sender.resetTimestamp();
+        this.robot.keyPress(keycode);
+        this.robot.keyRelease(keycode);
+    }
+
+    @Override
+    public synchronized void keyPressed(int keycode) throws RemoteException {
+        System.out.println("Key pressed");
+    }
+
+    @Override
+    public synchronized void keyReleased(int keycode) throws RemoteException {
+        System.out.println("Key released");
     }
 }

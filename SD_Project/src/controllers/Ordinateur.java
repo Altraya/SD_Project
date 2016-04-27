@@ -5,7 +5,6 @@
  */
 package controllers;
 
-import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
 import java.rmi.Naming;
@@ -92,6 +91,7 @@ public class Ordinateur {
             try {
                 this.receiver = (I_MethodesDist) Naming.lookup("rmi://" + ip + ":" + port+"/Message");
                 System.out.println("Ordinateur connecté à " + ip + " sur le port " + port);
+                this.sender.enable(receiver);
             } catch (MalformedURLException | RemoteException | NotBoundException e) {
                 System.err.println("Echec de l'essai");
                 e.printStackTrace();
@@ -116,6 +116,7 @@ public class Ordinateur {
      * l'autre ordinateur pour signaler cette deconnexion
      */
     public void deconnect_gui() {
+        System.out.println("Deconnexion");
         this.sender.disable();
         this.receiver = null;
     }

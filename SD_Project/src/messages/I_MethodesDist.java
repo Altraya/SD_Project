@@ -21,4 +21,14 @@ public interface I_MethodesDist extends Remote {
         public void moveMouse(double x, double y) throws RemoteException;
 
 	public void clickMouse(double x, double y) throws RemoteException;
+        
+        public void pressMouse(double x, double y) throws RemoteException;
+        
+        public void releaseMouse(double x, double y) throws RemoteException;
+        
+        public void keyTyped(int keycode) throws RemoteException;
+        
+        public void keyPressed(int keycode) throws RemoteException;
+        
+        public void keyReleased(int keycode) throws RemoteException;
 }

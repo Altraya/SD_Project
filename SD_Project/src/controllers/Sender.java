@@ -28,10 +28,10 @@ public class Sender {
     }
 
     /**
-     * Sends a click event to the set remote computer.
+     * Envoi l'evenement click a l'ordinateur distant
      *
-     * @param x X coordinate of the click
-     * @param y Y coordinate of the click
+     * @param x : coordonnée x
+     * @param y : coordonnée y
      */
     public void sendClick(int x, int y) {
         if (enabled && readyToSend()) {
@@ -46,10 +46,10 @@ public class Sender {
     }
 
     /**
-     * Sends a mouse moved event to be
+     * Envoi l'evenement mouse move
      *
-     * @param x X coordinate of the move
-     * @param y Y coordinate of the move
+     * @param x : coordonnee x du déplacement
+     * @param y : coordonnee y du déplacement
      */
     public void sendMouseMove(int x, int y) {
         if (enabled && readyToSend()) {

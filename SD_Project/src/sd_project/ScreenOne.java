@@ -5,16 +5,21 @@
  */
 package sd_project;
 
+import Espions.EspionSouris;
 import controllers.Ordinateur;
 import controllers.Sender;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import org.jnativehook.GlobalScreen;
+import org.jnativehook.NativeHookException;
 
 /**
  * Ecran d'accueil de l'application
  * @author karakayn
  */
-public class ScreenOne extends javax.swing.JFrame implements MouseListener{
+public class ScreenOne extends javax.swing.JFrame{
 
     Ordinateur ordi; //notre ordinateur
     /**
@@ -22,9 +27,13 @@ public class ScreenOne extends javax.swing.JFrame implements MouseListener{
      */
     public ScreenOne() {
         initComponents();
-        addMouseListener(this);
         Sender localSender = new Sender();
         this.ordi = new Ordinateur(localSender);
+        try {
+            this.activateNativeHook();
+        } catch (NativeHookException ex) {
+            Logger.getLogger(ScreenOne.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -145,7 +154,7 @@ public class ScreenOne extends javax.swing.JFrame implements MouseListener{
     }//GEN-LAST:event_ConnexionButtonActionPerformed
 
     private void DeconnexionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeconnexionButtonActionPerformed
-        // TODO add your handling code here:
+        ordi.deconnect_gui();
     }//GEN-LAST:event_DeconnexionButtonActionPerformed
 
     /**
@@ -196,33 +205,22 @@ public class ScreenOne extends javax.swing.JFrame implements MouseListener{
     /**
      * Partie perso non générée
      */
-    @Override
-    public void mousePressed(MouseEvent e)
-    {
-        System.out.println("Mouse pressed");
-    }
-    
-    @Override
-    public void mouseEntered(MouseEvent e) 
-    {
-        System.out.println("Mouse entered");
-    }
-    
-    @Override
-    public void mouseExited(MouseEvent e) 
-    {
-        System.out.println("Mouse exited");
-    }
-    
-    @Override
-    public void mouseReleased(MouseEvent e)
-    {
-        System.out.println("Mouse released");
-    }
 
-    @Override
-    public void mouseClicked(MouseEvent e) 
+    private void activateNativeHook() throws NativeHookException
     {
-        System.out.println("Mouse clicked");
+        //Permet de desactiver les infos de nativehook qui spam la console
+        Logger logger = Logger.getLogger(GlobalScreen.class.getPackage().getName());
+        logger.setLevel(Level.WARNING);
+        logger.setUseParentHandlers(false);
+        
+        try {
+            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex ) {
+            Logger.getLogger(ScreenOne.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        GlobalScreen.registerNativeHook();
+        EspionSouris eS = new EspionSouris(ordi.getSender());
+        GlobalScreen.addNativeMouseListener(eS);
     }
 }

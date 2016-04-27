@@ -14,6 +14,7 @@ import controllers.Ordinateur;
 import controllers.Sender;
 import java.awt.AWTException;
 import java.awt.Toolkit;
+import java.awt.event.InputEvent;
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -48,8 +49,13 @@ public class MethodesDist extends UnicastRemoteObject implements I_MethodesDist,
         System.out.println("Mouse moved");
     }
 
+    /*Simule un click de souris, envoi l'info a l'ordi distant*/
     @Override
     public void clickMouse(double x, double y) throws RemoteException {
         System.out.println("Mouse clicked");
+        this.moveMouse(x, y);
+        this.sender.resetTimestamp();
+        this.robot.mousePress(InputEvent.BUTTON1_MASK);
+        this.robot.mouseRelease(InputEvent.BUTTON1_MASK);
     }
 }

@@ -25,6 +25,9 @@ public class SD_Project {
         
         ScreenOne accueil = new ScreenOne();
         accueil.setVisible(true);
+        
+        //testJnativeHook test = new testJnativeHook();
+        
     }
     
 }

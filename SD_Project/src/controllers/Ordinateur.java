@@ -5,6 +5,7 @@
  */
 package controllers;
 
+import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
 import java.rmi.Naming;
@@ -57,10 +58,10 @@ public class Ordinateur {
         try {
             System.out.println("********* Lancement du serveur sur le port : " + port + "*********");
             LocateRegistry.createRegistry(port);
-            
+                   
             MethodesDist localMessageObject = new MethodesDist(this);
             
-            String url = "Message";
+            String url = "rmi://127.0.0.1:"+port+"/Message";
 
             System.out.println("Enregistrement de l'objet avec l'url : " + url);
 

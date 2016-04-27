@@ -10,10 +10,15 @@ import java.rmi.RemoteException;
 
 /**
  * Interface : Message
- * Définition d'une interface qui contient les méthodes qui peuvent être appelées à distance
+ * Définition d'une interface qui contient les méthodes qui peuvent être 
+ * appelées à distance
  * @author karakayn
  */
 
-public interface Message extends Remote {
+public interface I_MethodesDist extends Remote {
 	public String messageDistant() throws RemoteException;
+        
+        public void moveMouse(double x, double y) throws RemoteException;
+
+	public void clickMouse(double x, double y) throws RemoteException;
 }

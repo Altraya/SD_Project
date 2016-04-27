@@ -5,6 +5,8 @@
  */
 package sd_project;
 
+import controllers.Ordinateur;
+import controllers.Sender;
 import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,11 +22,7 @@ public class SD_Project {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        try {
-            Control control = new Control(1099);
-        } catch (UnknownHostException ex) {
-            Logger.getLogger(SD_Project.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
         ScreenOne accueil = new ScreenOne();
         accueil.setVisible(true);
     }

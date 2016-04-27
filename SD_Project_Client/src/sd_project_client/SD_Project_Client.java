@@ -6,6 +6,7 @@
 package sd_project_client;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.rmi.Naming;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -26,12 +27,12 @@ public class SD_Project_Client {
         System.out.println("Num de port pour se co ? : ");
         Scanner sc = new Scanner(System.in);
         int port = Integer.parseInt(sc.nextLine());
-        String command = "-Djava.rmi.server.hostname=localhost";
+        /*String command = "-Djava.rmi.server.hostname=localhost";
         try {
             Runtime.getRuntime().exec(command);
         } catch (IOException ex) {
             Logger.getLogger(SD_Project_Client.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }*/
         tryConnexion(port);
         
     
@@ -46,7 +47,7 @@ public class SD_Project_Client {
     {
         try {
             // on se connecte en rmi et on instancie un objet après le /
-            Message b =(Message) Naming.lookup("rmi://"+port+"/Message");
+            Message b =(Message) Naming.lookup("rmi://" + InetAddress.getLocalHost().getHostAddress()+":"+port+"/Message");
         }
         catch (Exception e) {
             System.out.println(e);

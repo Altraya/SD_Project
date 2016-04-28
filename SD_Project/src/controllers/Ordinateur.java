@@ -100,7 +100,7 @@ public class Ordinateur {
             try {
                 client = new Client(ip, port, callHandler);
                 System.out.println("Ordinateur connecté à " + ip + " sur le port " + port);
-                this.receiver = (I_MethodesDist) client.getGlobal(MethodesDist.class);
+                this.receiver = (I_MethodesDist) client.getGlobal(I_MethodesDist.class);
                 this.sender.enable(receiver);
             } catch (IOException ex) {
                 Logger.getLogger(Ordinateur.class.getName()).log(Level.SEVERE, null, ex);

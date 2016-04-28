@@ -5,6 +5,7 @@
  */
 package controllers;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
 import java.rmi.Naming;
@@ -15,6 +16,10 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import lipermi.exception.LipeRMIException;
+import lipermi.handler.CallHandler;
+import lipermi.net.Client;
+import lipermi.net.Server;
 import messages.I_MethodesDist;
 import messages.MethodesDist;
 
@@ -34,7 +39,6 @@ public class Ordinateur {
 
     public Ordinateur(Sender sender) {
         this.sender = sender;
-        System.out.println("sender ; "+sender);
         System.setProperty("java.security.policy", "file:./security.policy");
         int port;
         System.out.println("Entrez le port de lancement du serveur");
@@ -55,22 +59,25 @@ public class Ordinateur {
      */
     private void run_server(int port) throws UnknownHostException, MalformedURLException {
         try {
-            System.out.println("********* Lancement du serveur sur le port : " + port + "*********");
-            LocateRegistry.createRegistry(port);
-                   
-            MethodesDist localMessageObject = new MethodesDist(this);
-            
-            String url = "rmi://127.0.0.1:"+port+"/Message";
+           
+            MethodesDist mDist = new MethodesDist(this);
+            CallHandler callHandler = new CallHandler();
 
-            System.out.println("Enregistrement de l'objet avec l'url : " + url);
+            try {
+                callHandler.registerGlobal(MethodesDist.class, mDist);
+            } catch (LipeRMIException ex) {
+                Logger.getLogger(Ordinateur.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            Server server = new Server();
+            try {
+                server.bind(port, callHandler);
+            } catch (IOException ex) {
+                Logger.getLogger(Ordinateur.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            System.out.println("Serveur lancé sur le port : " + port);
 
-            Naming.rebind(url, localMessageObject);
-
-            System.out.println("Serveur lancé");
-
-        } catch (RemoteException e) {
-
-            e.printStackTrace();
+        } catch (RemoteException ex) {
+            Logger.getLogger(Ordinateur.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -85,24 +92,20 @@ public class Ordinateur {
         // on se connecte en rmi et on instancie un objet après le /
         int essais = 0;
         int EssaisMax = 8;
+        CallHandler callHandler = new CallHandler();
+        Client client = null;
         while ((essais < EssaisMax) && this.receiver == null) {
             essais += 1;
             System.out.println("Essais de connexion n°" + essais + " sur " + EssaisMax + " ...");
             try {
-                this.receiver = (I_MethodesDist) Naming.lookup("rmi://" + ip + ":" + port+"/Message");
+                client = new Client(ip, port, callHandler);
                 System.out.println("Ordinateur connecté à " + ip + " sur le port " + port);
+                this.receiver = (I_MethodesDist) client.getGlobal(MethodesDist.class);
                 this.sender.enable(receiver);
-            } catch (MalformedURLException | RemoteException | NotBoundException e) {
-                System.err.println("Echec de l'essai");
-                e.printStackTrace();
-                try {
-                    synchronized (this) {
-                        this.wait(2000);
-                    }
-                } catch (InterruptedException e1) {
-                    e1.printStackTrace();
-                }
+            } catch (IOException ex) {
+                Logger.getLogger(Ordinateur.class.getName()).log(Level.SEVERE, null, ex);
             }
+
         }
         if (this.receiver == null) {
             System.err.println("L'ordinateur n'as pas réussi à se connecter après " + EssaisMax + " essais.");

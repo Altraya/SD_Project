@@ -15,7 +15,7 @@ import java.rmi.RemoteException;
  * @author karakayn
  */
 
-public interface I_MethodesDist extends Remote {
+public interface I_MethodesDist {
 	public String messageDistant() throws RemoteException;
         
         public void moveMouse(double x, double y) throws RemoteException;

@@ -5,41 +5,35 @@
  */
 package messages;
 
-import java.awt.Dimension;
-import java.awt.Robot;
-import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
-
 import controllers.Ordinateur;
 import controllers.Sender;
 import java.awt.AWTException;
+import java.awt.Dimension;
+import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.event.InputEvent;
-import java.io.Serializable;
+import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-/**
- *
- * @author karakayn
- */
 
-public class MethodesDist extends UnicastRemoteObject implements I_MethodesDist, Serializable {
+
+public class I_MethodesDistImpl implements I_MethodesDist {
+
     private static final long serialVersionUID = 123456789;
     private Robot robot;
     private Dimension screenSize;
     private Sender sender; //permet de joindre le sender
     
-    public MethodesDist(Ordinateur ordi) throws RemoteException {
-        super(0);
+    public I_MethodesDistImpl(Ordinateur ordi) {
         try {
             this.robot = new Robot();
         } catch (AWTException ex) {
-            Logger.getLogger(MethodesDist.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(I_MethodesDistImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         this.screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         this.sender = ordi.getSender();
     }
-
+    
     @Override
     public String messageDistant() throws RemoteException {
         return "Message distant envoyé";
@@ -98,4 +92,5 @@ public class MethodesDist extends UnicastRemoteObject implements I_MethodesDist,
     public synchronized void keyReleased(int keycode) throws RemoteException {
         System.out.println("Key released");
     }
+    
 }

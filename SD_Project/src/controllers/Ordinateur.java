@@ -21,7 +21,7 @@ import lipermi.handler.CallHandler;
 import lipermi.net.Client;
 import lipermi.net.Server;
 import messages.I_MethodesDist;
-import messages.MethodesDist;
+import messages.I_MethodesDistImpl;
 
 /**
  * Class représentant un ordinateur : Une partie sender : qui est envoi tout ce
@@ -39,7 +39,6 @@ public class Ordinateur {
 
     public Ordinateur(Sender sender) {
         this.sender = sender;
-        System.setProperty("java.security.policy", "file:./security.policy");
         int port;
         System.out.println("Entrez le port de lancement du serveur");
         Scanner scan = new Scanner(System.in);
@@ -58,27 +57,20 @@ public class Ordinateur {
      * @param port : port sur lequel lancer le serveur
      */
     private void run_server(int port) throws UnknownHostException, MalformedURLException {
+        I_MethodesDistImpl mDist = new I_MethodesDistImpl(this);
+        CallHandler callHandler = new CallHandler();
         try {
-           
-            MethodesDist mDist = new MethodesDist(this);
-            CallHandler callHandler = new CallHandler();
-
-            try {
-                callHandler.registerGlobal(MethodesDist.class, mDist);
-            } catch (LipeRMIException ex) {
-                Logger.getLogger(Ordinateur.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            Server server = new Server();
-            try {
-                server.bind(port, callHandler);
-            } catch (IOException ex) {
-                Logger.getLogger(Ordinateur.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            System.out.println("Serveur lancé sur le port : " + port);
-
-        } catch (RemoteException ex) {
+            callHandler.registerGlobal(I_MethodesDistImpl.class, mDist);
+        } catch (LipeRMIException ex) {
             Logger.getLogger(Ordinateur.class.getName()).log(Level.SEVERE, null, ex);
         }
+        Server server = new Server();
+        try {
+            server.bind(port, callHandler);
+        } catch (IOException ex) {
+            Logger.getLogger(Ordinateur.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println("Serveur lancé sur le port : " + port);
     }
 
     /**

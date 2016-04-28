@@ -10,7 +10,7 @@ import java.awt.Toolkit;
 import java.rmi.RemoteException;
 import messages.I_MethodesDist;
 
-import messages.MethodesDist;
+import messages.I_MethodesDistImpl;
 
 /**
  * Permet d'envoyer des messages a notre autre client

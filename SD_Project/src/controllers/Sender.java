@@ -94,12 +94,12 @@ public class Sender {
         }
     }
     
-    public void sendKeyTyped(int keyCode)
+    public void sendKeyTyped(char charTyped)
     {
         if(enabled && readyToSend())
         {
             try {
-                this.remote.keyTyped(keyCode);
+                this.remote.keyTyped(charTyped);
             } catch (RemoteException e) {
                 System.err.println("Failed to send key typed event.");
             }
@@ -124,6 +124,10 @@ public class Sender {
         this.lastReceivedTimestamp = System.nanoTime();
     }
 
+    /**
+     * Permet de check si un message a deja été envoyé depuis les 5 dernières secondes
+     * @return true si le temps passé depuis la derniere instruction est plus grande que 5sec
+     */
     private boolean readyToSend() {
         long fiveSec = (long) (5 * Math.pow(10, 9));
         return System.nanoTime() > lastReceivedTimestamp + fiveSec;

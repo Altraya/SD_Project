@@ -26,9 +26,9 @@ public interface I_MethodesDist {
         
         public void releaseMouse(double x, double y) throws RemoteException;
         
-        public void keyTyped(int keycode) throws RemoteException;
+        public void keyTyped(char charKeybord) throws RemoteException;
         
-        public void keyPressed(int keycode) throws RemoteException;
+        public void keyPressed(char charKeybord) throws RemoteException;
         
-        public void keyReleased(int keycode) throws RemoteException;
+        public void keyReleased(char charKeybord) throws RemoteException;
 }

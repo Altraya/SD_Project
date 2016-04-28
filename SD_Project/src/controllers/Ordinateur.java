@@ -21,7 +21,7 @@ import lipermi.handler.CallHandler;
 import lipermi.net.Client;
 import lipermi.net.Server;
 import messages.I_MethodesDist;
-import messages.I_MethodesDistImpl;
+import messages.MethodesDistImpl;
 
 /**
  * Class représentant un ordinateur : Une partie sender : qui est envoi tout ce
@@ -57,10 +57,10 @@ public class Ordinateur {
      * @param port : port sur lequel lancer le serveur
      */
     private void run_server(int port) throws UnknownHostException, MalformedURLException {
-        I_MethodesDistImpl mDist = new I_MethodesDistImpl(this);
+        MethodesDistImpl mDist = new MethodesDistImpl(this);
         CallHandler callHandler = new CallHandler();
         try {
-            callHandler.registerGlobal(I_MethodesDistImpl.class, mDist);
+            callHandler.registerGlobal(I_MethodesDist.class, mDist);
         } catch (LipeRMIException ex) {
             Logger.getLogger(Ordinateur.class.getName()).log(Level.SEVERE, null, ex);
         }

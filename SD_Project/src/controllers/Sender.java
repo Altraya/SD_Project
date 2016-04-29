@@ -94,6 +94,20 @@ public class Sender {
         }
     }
     
+    public void SendMouseDragged(int x, int y)
+    {
+        if(enabled && readyToSend())
+        {
+            double localX = ((double) x) / this.screenSize.getWidth();
+            double localY = ((double) y) / this.screenSize.getHeight();
+            try {
+                this.remote.draggedMouse(localX, localY);
+            } catch (RemoteException e) {
+                System.err.println("Failed to dragged mouse released event.");
+            }
+        }
+    }
+    
     public void sendKeyTyped(char charTyped)
     {
         if(enabled && readyToSend())
@@ -102,6 +116,30 @@ public class Sender {
                 this.remote.keyTyped(charTyped);
             } catch (RemoteException e) {
                 System.err.println("Failed to send key typed event.");
+            }
+        }
+    }
+    
+    public void sendKeyPressed(char charPressed)
+    {
+        if(enabled && readyToSend())
+        {
+            try {
+                this.remote.keyPressed(charPressed);
+            } catch (RemoteException e) {
+                System.err.println("Failed to send key pressed event.");
+            }
+        }
+    }
+    
+    public void sendKeyReleased(char charPressed)
+    {
+        if(enabled && readyToSend())
+        {
+            try {
+                this.remote.keyReleased(charPressed);
+            } catch (RemoteException e) {
+                System.err.println("Failed to send key released event.");
             }
         }
     }
@@ -125,11 +163,11 @@ public class Sender {
     }
 
     /**
-     * Permet de check si un message a deja été envoyé depuis les 5 dernières secondes
-     * @return true si le temps passé depuis la derniere instruction est plus grande que 5sec
+     * Permet de check si un message a deja été envoyé depuis les 1 dernieres millisecondes
+     * @return true si le temps passé depuis la derniere instruction est plus grande que 1ms
      */
     private boolean readyToSend() {
-        long fiveSec = (long) (5 * Math.pow(10, 9));
-        return System.nanoTime() > lastReceivedTimestamp + fiveSec;
+        long time = (long) 1000/40;
+        return System.currentTimeMillis() > lastReceivedTimestamp + time;
     }
 }

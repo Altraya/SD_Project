@@ -48,7 +48,7 @@ public class EspionSouris implements NativeMouseInputListener{
 
     @Override
     public void nativeMouseDragged(NativeMouseEvent nme) {
-        //Not supported yet
+        this.sender.SendMouseDragged(nme.getX(), nme.getY());
     }
     
 }

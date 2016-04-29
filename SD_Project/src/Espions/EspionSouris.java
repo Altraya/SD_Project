@@ -25,19 +25,19 @@ public class EspionSouris implements NativeMouseInputListener{
     
     @Override
     public void nativeMouseClicked(NativeMouseEvent nme) {
-        System.out.println("MouseClickedNative | x = "+nme.getX()+" | y = "+ nme.getY());
+        //System.out.println("MouseClickedNative | x = "+nme.getX()+" | y = "+ nme.getY());
         this.sender.sendClick(nme.getX(), nme.getY());
     }
 
     @Override
     public void nativeMousePressed(NativeMouseEvent nme) {
-        System.out.println("MousePressedNative | x = "+nme.getX()+" | y = "+ nme.getY());
+        //System.out.println("MousePressedNative | x = "+nme.getX()+" | y = "+ nme.getY());
         this.sender.sendMousePress(nme.getX(), nme.getY());
     }
 
     @Override
     public void nativeMouseReleased(NativeMouseEvent nme) {
-        System.out.println("MouseReleasedNative | x = "+nme.getX()+" | y = "+ nme.getY());
+        //System.out.println("MouseReleasedNative | x = "+nme.getX()+" | y = "+ nme.getY());
         this.sender.sendMouseReleased(nme.getX(), nme.getY());
     }
 

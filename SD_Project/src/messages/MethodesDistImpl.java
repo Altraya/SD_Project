@@ -46,7 +46,7 @@ public class MethodesDistImpl implements I_MethodesDist {
         int localY = (int) (screenSize.getHeight() * y);
         this.sender.resetTimestamp();
         this.robot.mouseMove(localX, localY);
-        System.out.println("Mouse moved to "+localX+" / "+localY);
+        //System.out.println("Mouse moved to "+localX+" / "+localY);
     }
 
     /*Simule un click de souris, envoi l'info a l'ordi distant*/
@@ -84,7 +84,7 @@ public class MethodesDistImpl implements I_MethodesDist {
 
     @Override
     public synchronized void keyTyped(char charKeybord) throws RemoteException {
-        System.out.println("Key typed");
+        System.out.println("Key typed : "+charKeybord);
         this.sender.resetTimestamp();
         this.robot.keyPress(charKeybord);
         this.robot.keyRelease(charKeybord);
@@ -92,14 +92,14 @@ public class MethodesDistImpl implements I_MethodesDist {
 
     @Override
     public synchronized void keyPressed(char charKeybord) throws RemoteException {
-        System.out.println("Key pressed");
+        System.out.println("Key pressed"+charKeybord);
         this.sender.resetTimestamp();
         this.robot.keyPress(charKeybord);
     }
 
     @Override
     public synchronized void keyReleased(char charKeybord) throws RemoteException {
-        System.out.println("Key released");
+        System.out.println("Key released"+charKeybord);
         this.sender.resetTimestamp();
         this.robot.keyRelease(charKeybord);
     }
